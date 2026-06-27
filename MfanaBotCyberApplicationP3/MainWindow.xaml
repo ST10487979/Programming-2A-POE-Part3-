@@ -1,0 +1,280 @@
+﻿<Window x:Class="MfanaBotCyberApplicationP3.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Mfana Security Bot 🇿🇦" 
+        Height="750" Width="1000"
+        WindowStartupLocation="CenterScreen"
+        Background="#1A1A2E">
+
+    <Window.Resources>
+        <!-- Colors -->
+        <SolidColorBrush x:Key="PrimaryColor" Color="#E94560"/>
+        <SolidColorBrush x:Key="DarkBg" Color="#1A1A2E"/>
+        <SolidColorBrush x:Key="DarkerBg" Color="#16213E"/>
+        <SolidColorBrush x:Key="CardBg" Color="#2A2A3A"/>
+        <SolidColorBrush x:Key="TextColor" Color="#EEEEEE"/>
+        <SolidColorBrush x:Key="AccentColor" Color="#4ECDC4"/>
+
+        <Style TargetType="Button" x:Key="PrimaryButton">
+            <Setter Property="Background" Value="#E94560"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="20,10"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="8" 
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="Button" x:Key="SecondaryButton">
+            <Setter Property="Background" Value="#333333"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="15,10"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="8" 
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="TextBox">
+            <Setter Property="Background" Value="#444444"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid Background="{StaticResource DarkBg}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0" Padding="15" Background="#FF2B2B2B">
+            <StackPanel>
+                <TextBlock Text="🛡️ MFANA SECURITY BOT" 
+                           FontSize="20" 
+                           FontWeight="Bold" 
+                           Foreground="White" 
+                           HorizontalAlignment="Center"/>
+                <TextBlock Text="Keeping South African mfanas safe online 🔒" 
+                           FontSize="12" 
+                           Foreground="#AAAAAA" 
+                           HorizontalAlignment="Center"
+                           Margin="0,5,0,0"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Navigation Tabs -->
+        <WrapPanel Grid.Row="1" Margin="10,10" HorizontalAlignment="Center">
+            <Button Content="💬 Chat" Style="{StaticResource PrimaryButton}" 
+                    Background="#E94560" Click="ChatTab_Click"/>
+            <Button Content="📋 Tasks" Style="{StaticResource PrimaryButton}" 
+                    Background="#333333" Click="TasksTab_Click"/>
+            <Button Content="🎯 Quiz" Style="{StaticResource PrimaryButton}" 
+                    Background="#333333" Click="QuizTab_Click"/>
+            <Button Content="📜 Activity Log" Style="{StaticResource PrimaryButton}" 
+                    Background="#333333" Click="LogTab_Click"/>
+            <Button Content="🔌 Test DB" Style="{StaticResource SecondaryButton}" 
+                    Background="#4ECDC4" Click="TestDB_Click"/>
+        </WrapPanel>
+
+        <!-- Main Content -->
+        <Grid Grid.Row="2" Margin="10">
+            <!-- Chat View -->
+            <Grid x:Name="ChatView" Visibility="Visible">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <ScrollViewer x:Name="MessagesScrollViewer" 
+                              Background="#1A1A2E" 
+                              VerticalScrollBarVisibility="Auto">
+                    <ItemsControl x:Name="MessagesList"/>
+                </ScrollViewer>
+
+                <Border Grid.Row="1" Background="#2A2A3A" Padding="10" CornerRadius="10" Margin="0,5,0,0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox x:Name="MessageInput" 
+                                 Background="#444444" 
+                                 Foreground="White" 
+                                 TextWrapping="Wrap"
+                                 AcceptsReturn="True"
+                                 MinHeight="40"
+                                 MaxHeight="100"
+                                 KeyDown="MessageInput_KeyDown"/>
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="10,0,0,0">
+                            <Button Content="🗑️" 
+                                    Width="50" Height="40" 
+                                    Background="#333" Foreground="White"
+                                    Click="ClearButton_Click"/>
+                            <Button Content="Send" 
+                                    Width="80" Height="40" 
+                                    Background="#E94560" Foreground="White"
+                                    Click="SendButton_Click"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <!-- Tasks View -->
+            <Grid x:Name="TasksView" Visibility="Collapsed">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Border Grid.Row="0" Background="#2A2A3A" Padding="15" CornerRadius="10" Margin="0,0,0,10">
+                    <StackPanel>
+                        <TextBlock Text="➕ Add New Task" Foreground="White" FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox x:Name="TaskTitleInput" Grid.Column="0" Margin="0,0,10,0" 
+                                     TextWrapping="Wrap" MinHeight="35"/>
+                            <DatePicker x:Name="TaskReminderPicker" Grid.Column="1" Margin="0,0,10,0" 
+                                        Height="35" Background="#444444" Foreground="White"/>
+                            <Button Content="➕ Add Task" Grid.Column="2" 
+                                    Style="{StaticResource PrimaryButton}"
+                                    Click="AddTaskBtn_Click"/>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                    <ItemsControl x:Name="TasksList"/>
+                </ScrollViewer>
+            </Grid>
+
+            <!-- Quiz View -->
+            <Grid x:Name="QuizView" Visibility="Collapsed">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Border Grid.Row="0" Background="#2A2A3A" Padding="15" CornerRadius="10" Margin="0,0,0,10">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <TextBlock x:Name="QuizScoreLabel" 
+                                   Text="🏆 Score: 0" 
+                                   Foreground="White" 
+                                   FontSize="16"
+                                   FontWeight="Bold"
+                                   Margin="0,0,20,0"/>
+                        <Button x:Name="StartQuizBtn" 
+                                Content="🎯 Start Quiz" 
+                                Style="{StaticResource PrimaryButton}"
+                                Click="StartQuizBtn_Click"/>
+                    </StackPanel>
+                </Border>
+
+                <Border Grid.Row="1" Background="#2A2A3A" Padding="15" CornerRadius="10">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <TextBlock x:Name="QuizQuestionLabel" 
+                                   Text="Click 'Start Quiz' to test your cyber security knowledge!" 
+                                   Foreground="White" 
+                                   FontSize="16"
+                                   TextWrapping="Wrap"/>
+                    </ScrollViewer>
+                </Border>
+
+                <Border Grid.Row="2" Background="#2A2A3A" Padding="15" CornerRadius="10" Margin="0,10,0,0">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <TextBox x:Name="QuizAnswerInput" 
+                                 Width="250" Height="40" 
+                                 Background="#444444" Foreground="White"
+                                 KeyDown="QuizAnswerInput_KeyDown"/>
+                        <Button x:Name="SubmitAnswerBtn" 
+                                Content="Submit Answer" 
+                                Style="{StaticResource PrimaryButton}"
+                                Background="#4ECDC4"
+                                Margin="10,0,0,0"
+                                Click="SubmitAnswerBtn_Click"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <!-- Activity Log View -->
+            <Grid x:Name="LogView" Visibility="Collapsed">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Border Grid.Row="0" Background="#2A2A3A" Padding="10" CornerRadius="10" Margin="0,0,0,10">
+                    <StackPanel Orientation="Horizontal">
+                        <Button x:Name="RefreshLogBtn" 
+                                Content="🔄 Refresh" 
+                                Style="{StaticResource PrimaryButton}"
+                                Background="#4ECDC4"
+                                Click="RefreshLogBtn_Click"/>
+                        <Button x:Name="FullLogBtn" 
+                                Content="📋 Show All" 
+                                Style="{StaticResource PrimaryButton}"
+                                Margin="10,0,0,0"
+                                Click="FullLogBtn_Click"/>
+                    </StackPanel>
+                </Border>
+
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                    <TextBlock x:Name="LogDisplay" 
+                               Foreground="#AAAAAA" 
+                               FontSize="12"
+                               TextWrapping="Wrap"
+                               FontFamily="Consolas"
+                               Padding="10"/>
+                </ScrollViewer>
+            </Grid>
+        </Grid>
+
+        <!-- Status Bar -->
+        <Border Grid.Row="3" Background="#2A2A3A" Padding="10,5" Margin="10,5,10,0" CornerRadius="8">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock x:Name="StatusLabel" 
+                           Text="🟢 Ready" 
+                           Foreground="#4ECDC4" 
+                           FontSize="12"/>
+                <TextBlock Text=" | " Foreground="#555" Margin="10,0"/>
+                <TextBlock x:Name="MemoryLabel" 
+                           Text="🧠 0 items remembered" 
+                           Foreground="#AAAAAA" 
+                           FontSize="12"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>
